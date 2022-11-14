@@ -246,11 +246,25 @@ Lalu tambahkan hwaddress tersebut pada konfigurasi Eden
 ![image](https://user-images.githubusercontent.com/62301187/201670845-77ddba51-e56e-49f1-bb1f-a1213444fb8c.png)
 
 # Soal Proxy
+### SSS, Garden, dan Eden digunakan sebagai client Proxy agar pertukaran informasi dapat terjamin keamanannya, juga untuk mencegah kebocoran data. Pada Proxy Server di Berlint, Loid berencana untuk mengatur bagaimana Client dapat mengakses internet. Artinya setiap client harus menggunakan Berlint sebagai HTTP & HTTPS proxy. Adapun kriteria pengaturannya adalah sebagai berikut:
+Setup proxy menggunakan port 8080 karena pada soal tidak ada spesifik portnya
+```
+http_port 8080
+visible_hostname Berlint
+http_access allow all
+```
+Setelah itu restart node pada switch 1 dan switch 3, kemudian gunakan script berikut pada Eden, Garden, dan SSS
+```
+export http_proxy="http://10.6.2.3:8080"
+env | grep -i proxy
+```
 
 ## Soal 8
-### SSS, Garden, dan Eden digunakan sebagai client Proxy agar pertukaran informasi dapat terjamin keamanannya, juga untuk mencegah kebocoran data. Pada Proxy Server di Berlint, Loid berencana untuk mengatur bagaimana Client dapat mengakses internet. Artinya setiap client harus menggunakan Berlint sebagai HTTP & HTTPS proxy. Adapun kriteria pengaturannya adalah sebagai berikut:
 ### a. Client hanya dapat mengakses internet diluar (selain) hari & jam kerja (senin-jumat 08.00 - 17.00) dan hari libur (dapat mengakses 24 jam penuh)
+Karena pengaksesan internet dilarang pada hari dan jam kerja saja, maka bisa kita tambahkan script berikut pada Berlint
+```
 
+```
 ## Soal 9
 ### b. Adapun pada hari dan jam kerja sesuai nomor (1), client hanya dapat mengakses domain loid-work.com dan franky-work.com (IP tujuan domain dibebaskan)
 
