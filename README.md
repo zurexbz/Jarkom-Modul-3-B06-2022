@@ -303,3 +303,7 @@ Namun, tetap ingat bahwa meskipun web tersebut https tetapi diakses pada jam ker
 ## Soal 12
 ### e. Setelah diterapkan, ternyata peraturan nomor (4) mengganggu produktifitas saat hari kerja, dengan demikian pembatasan kecepatan hanya diberlakukan untuk pengaksesan internet pada hari libur
 
+## Kendala
+- VMWare terkadang tidak bisa open project teman sekelompok
+- VMWare terkadang tidak bisa connect dengan internet device
+- Masih ada beberapa kebingungan dalam mengerjakan soal
