@@ -263,13 +263,39 @@ env | grep -i proxy
 ### a. Client hanya dapat mengakses internet diluar (selain) hari & jam kerja (senin-jumat 08.00 - 17.00) dan hari libur (dapat mengakses 24 jam penuh)
 Karena pengaksesan internet dilarang pada hari dan jam kerja saja, maka bisa kita tambahkan script berikut pada Berlint
 ```
-
+acl available_working time M T W H F 08:00-17:00
+```
+Setelah itu, set available_working agar tidak diberikan akses internet
+```
+http_access deny available_working
 ```
 ## Soal 9
 ### b. Adapun pada hari dan jam kerja sesuai nomor (1), client hanya dapat mengakses domain loid-work.com dan franky-work.com (IP tujuan domain dibebaskan)
+Domain yang dapat diakses diiniasi dan dimasukkan ke dalam `/etc/squid/available-sites.acl`
+```
+echo -e '.loid-work.com
+.franky-work.com
+' > /etc/squid/available-sites.acl
+
+acl sites_available_working dstdomain "/etc/squid/available-sites.acl"
+```
+Kemudian berikan akses ketika client mengakses pada hari dan jam kerja, maka hanya bisa mengakses domain tersebut dan ketika di luar waktu itu maka domain lain dapat diakses
+```
+http_access allow sites_available_working available_working
+http_access deny sites_available_working
+```
 
 ## Soal 10
 ### c. Saat akses internet dibuka, client dilarang untuk mengakses web tanpa HTTPS. (Contoh web HTTP: http://example.com)
+Set agar web dengan http diblock dan hanya perbolehkan web dengan https menggunakan script berikut:
+```
+acl block_access_http url_regex -i 'http://'
+acl access_ https url_regex -i 'https://'
+
+http_access deny available_working access_https
+http_access deny block_access_http
+```
+Namun, tetap ingat bahwa meskipun web tersebut https tetapi diakses pada jam kerja, maka tetap tidak bisa diakses kecuali domain pada nomor 9
 
 ## Soal 11
 ### d. Agar menghemat penggunaan, akses internet dibatasi dengan kecepatan maksimum 128 Kbps pada setiap host (Kbps = kilobit per second; lakukan pengecekan pada tiap host, ketika 2 host akses internet pada saat bersamaan, keduanya mendapatkan speed maksimal yaitu 128 Kbps)
