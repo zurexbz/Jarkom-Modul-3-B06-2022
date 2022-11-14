@@ -299,10 +299,36 @@ Namun, tetap ingat bahwa meskipun web tersebut https tetapi diakses pada jam ker
 
 ## Soal 11
 ### d. Agar menghemat penggunaan, akses internet dibatasi dengan kecepatan maksimum 128 Kbps pada setiap host (Kbps = kilobit per second; lakukan pengecekan pada tiap host, ketika 2 host akses internet pada saat bersamaan, keduanya mendapatkan speed maksimal yaitu 128 Kbps)
-
+Buat file /etc/squid/acl.conf dengan cara :
+```
+nano /etc/squid/acl-bandwidth.conf
+```
+Tambahkan isi file dengan
+```
+delay_pools 1
+delay_class 1 1
+delay_access 1 allow all
+delay_parameters 1 16000/16000
+```
+Edit file /etc/squid/acl.conf dengan cara
+```
+nano /etc/squid/acl.conf
+```
+Manambahakan isi file dengan
+```
+include /etc/squid/acl-bandwidth.conf
+```
 ## Soal 12
 ### e. Setelah diterapkan, ternyata peraturan nomor (4) mengganggu produktifitas saat hari kerja, dengan demikian pembatasan kecepatan hanya diberlakukan untuk pengaksesan internet pada hari libur
-
+Edit file /etc/squid/acl.conf dengan cara
+```
+nano /etc/squid/acl.conf
+```
+Menambahkan isi file dengan
+```
+ http_access allow !WORKSITES !AVAILABLE_WORKING
+ http_access allow WORKSITES AVAILABLE_WORKING
+```
 ## Kendala
 - VMWare terkadang tidak bisa open project teman sekelompok
 - VMWare terkadang tidak bisa connect dengan internet device
